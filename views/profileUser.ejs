@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/output.css">
+    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="shortcut icon" href="/images/logo.png" type="image/x-icon">
+    <title>Spotitip</title>
+</head>
+<body class="bg-black">
+        
+    <aside class="w-[300px] ml-3 flex flex-col gap-y-3 fixed h-[97%]">
+        <div class="sideProfileUser bg-neutral-900 text-neutral-300 pl-5 p-4 rounded-md h-full flex flex-col gap-y-6 hover:cursor-pointer">
+
+            <div class="button-up md:flex items-center">
+                <a href="/main-user/<%= userId %>">
+                    <button class="rounded-full bg-neutral-950 hover:opacity-70 transition text-neutral-300 h-[42px] w-[42px] flex items-center justify-center hover:cursor-pointer">
+                        &lt;
+                    </button>
+                </a>
+            </div>
+            
+            <button id="showUser" data-target="myUser" class="hover:opacity-60 transition rounded-xl w-full text-neutral-300 ">
+                Profile
+            </button>
+
+            <button id="showUserArtistFollow" data-target="myUserArtistFollow" class="hover:opacity-60 transition rounded-xl w-full text-neutral-300 ">
+                Followed Artists
+            </button>
+
+            <button id="showUserAlbumFollow" data-target="myUserAlbumFollow" class="hover:opacity-60 transition rounded-xl w-full text-neutral-300 ">
+                Followed Albums
+            </button>
+
+            <button id="showUserPlaylistCreate" data-target="myUserPlaylistCreate" class="hover:opacity-60 transition rounded-xl w-full text-neutral-300 ">
+                Created Playlists
+            </button>
+
+            <button id="showUserPlaylistFollow" data-target="myUserPlaylistFollow" class="hover:opacity-60 transition rounded-xl w-full text-neutral-300 ">
+                Followed Playlists
+            </button>
+
+            <button id="showUserSongLiked" data-target="myUserSongLiked" class="hover:opacity-60 transition rounded-xl w-full text-neutral-300 ">
+                Liked Songs
+            </button>
+
+        </div>
+    </aside>
+
+    <%- include('./layouts/profileUser/showUsers') %>
+    <%- include('./layouts/profileUser/showUserArtistFollows') %>
+    <%- include('./layouts/profileUser/showUserAlbumFollows') %>
+    <%- include('./layouts/profileUser/showUserPlaylistCreates') %>
+    <%- include('./layouts/profileUser/showUserPlaylistFollows') %>
+    <%- include('./layouts/profileUser/showUserSongLiked') %>
+
+
+    <script src="/js/profileUser.js"></script>
+</body>
+</html>

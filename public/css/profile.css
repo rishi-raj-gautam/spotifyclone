@@ -1,0 +1,358 @@
+*, html, body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    /* cursor: default; */
+}
+
+.profileEmpty {
+    width: 8000px !important;
+}
+
+main::-webkit-scrollbar {
+    display: none;
+}
+
+main {
+    height: 855px !important;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.main {
+    column-gap: 20px !important;
+    /* row-gap: 10px !important; */
+    flex-wrap: wrap;
+    /* justify-content: last baseline; */
+}
+
+.sideProfileUser > button,
+.sideProfileArtist > button {
+    height: 100px;
+    background-color: rgb(38, 38, 38);
+    overflow: hidden;
+}
+
+.active {
+    background-color: #4CAF50 !important; /* Warna latar belakang untuk tombol yang aktif */
+    color: white; /* Warna teks untuk tombol yang aktif */
+}
+
+.title {
+    font-size: 50px;
+}
+
+.user-item,
+.artist-item {
+    margin-bottom: 48px;
+    /* margin: 0 20px 48px 20px; */
+    /* gap: 30px !important; */
+    /* justify-content: space-between; */
+    /* align-items: center; */
+    /* padding: 25px 55px 25px 35px !important; */
+    width: 260px !important;
+    height: 380px;
+    padding-bottom: 21px !important;
+}
+
+.user-item > img:hover,
+.artist-item > img:hover {
+    cursor: pointer;
+    opacity: 60%;
+}
+
+.user-item > .desc h1:hover,
+.artist-item > desc h1:hover {
+    cursor: pointer;
+    opacity: 60%;
+}
+
+.user-item > .desc p:hover,
+.artist-item > desc p:hover {
+    cursor: pointer;
+    opacity: 60%;
+}
+
+.userprofile, .artistProfile {
+    /* width: 260px !important; */
+    /* padding: 25px 55px 25px 35px !important; */
+    /* align-items: center; */
+    margin-bottom: 48px;
+    /* background-color: aqua; */
+    /* display: flex; */
+    /* justify-content: center; */
+    align-items: center;
+    /* padding: 25px 85px 25px 35px !important; */
+    padding: 20px 50px !important;
+}
+
+.addUserProfile {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    /* right: -100; */
+    right: -770px;
+}
+
+.addArtistProfile {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    right: -760px;
+}
+
+.addUserProfile img,
+.addArtistProfile img {
+    border: 2px solid #00A97F;
+}
+
+#profile-pic-input-btn {
+    background-color: #00A97F !important;
+}
+
+.editUserProfile {
+    position: relative;
+    right: -655px;
+    margin-top: 201px;
+    margin-right: 5px;
+}
+
+/* #userLogoutBtn,
+#artistLogoutBtn {
+    margin-bottom: 10px;
+} */
+
+.editUser, .editArtist {
+    /* display: flex; */
+    flex-direction: row;
+    justify-content: space-between !important;
+    align-items: flex-end;
+    padding: 20px 35px 20px 50px !important;
+}
+
+.editUserForm, .editArtistForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    /* align-items: center; */
+}
+
+.editUserForm > p > input,
+.editArtistForm > p > input {
+    margin-left: 12px;
+    background-color: rgb(38, 38, 38);
+    /* background-color: #00A97F; */
+    border-radius: 6px;
+    padding: 8px 16px;
+    width: 300px !important;
+}
+
+.editUserForm > p > input:focus,
+.editArtistForm > p > input:focus {
+    border: none;
+    /* outline: none; */
+    outline: 1px solid #00FF5B;
+}
+
+#profile-edit-input-btn {
+    background-color: #00A97F !important;
+    width: 100px;
+}
+
+#profile-save-input-btn {
+    background-color: #00A97F !important;
+    width: 225px;
+}
+
+/* .saveUserProfile {
+    width: 130px;
+} */
+
+#userLogoutBtn:hover,
+#artistLogoutBtn:hover {
+    opacity: 70% !important;
+    cursor: pointer !important;
+}
+
+.searchTitle {
+    font-size: 50px;
+    margin-top: 70px;
+    color: rgb(255, 255, 255);
+}
+
+.searchBar {
+    /* background-color: #00FF5B; */
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    /* column-gap: 20px; */
+    margin-top: 100px;
+}
+
+.searchButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#addSongToAlbumForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    gap: 0px !important;
+}
+
+.titleForm {
+    margin-top: 20px;
+    margin-bottom: 5px;
+    font-size: 24px;
+}
+
+.searchBar button {
+    margin-top: 20px;
+    background-color: #00A97F;
+    width: 600px;
+    height: 35px;
+    border-radius: 25px;
+    transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+    color: #2f303d;
+    font-weight: bold;
+    padding: 8px;
+}
+
+.searchBar button:active {
+    margin-top: 20px;
+    background-color: #00FF5B;
+    width: 600px;
+    height: 35px;
+    border-radius: 25px;
+    transform: scale(0.95);
+}
+
+.input {
+    /* display: flex; */
+    padding: 30px;
+    width: 600px;
+    height: 45px;
+    background: rgb(38, 38, 38);
+    border-radius: 25px;
+    /* box-sizing: border-box; */
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    color: #00FF5B;
+    outline: none;
+    /* transition: .5s; */
+    transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.input:hover {
+    box-shadow: 0 0 0 2.5px #2f303d, 0px 0px 25px -15px #000;
+}
+
+.input:active {
+    transform: scale(0.95);
+}
+  
+.input:focus {
+    box-shadow: 0 0 0 2.5px #2f303d;
+}
+
+/* .desc {
+    display: flex;
+    background-color: #00FF5B;
+} */
+
+.user-item > .desc h1:hover {
+    cursor: pointer;
+    opacity: 60%;
+}
+
+.user-item > .desc p:hover {
+    cursor: pointer;
+    opacity: 60%;
+}
+
+.btnFollowed {
+    --color: #00A97F;
+    --color2: rgb(10, 25, 30);
+    padding: 0.8em 1.75em;
+    background-color: transparent;
+    border-radius: 6px;
+    border: .3px solid var(--color);
+    transition: .5s;
+    position: relative;
+    overflow: hidden;
+    cursor: not-allowed;
+    z-index: 1;
+    font-weight: 600;
+    font-size: 12px;
+    font-family: 'Roboto', 'Segoe UI', sans-serif;
+    text-transform: uppercase;
+    color: var(--color);
+}
+
+/* .btnFollowedDelay {
+    --color: #00A97F;
+    --color2: rgb(10, 25, 30);
+    padding: 0.8em 1.75em;
+    background-color: transparent;
+    border-radius: 6px;
+    border: .3px solid var(--color);
+    transition: .5s;
+    position: relative;
+    overflow: hidden;
+    cursor: not-allowed;
+    z-index: 1;
+    font-weight: 600;
+    font-size: 12px;
+    font-family: 'Roboto', 'Segoe UI', sans-serif;
+    text-transform: uppercase;
+    color: var(--color);
+}
+
+.btnFollowed::after, .btnFollowed::before {
+    content: '';
+    display: block;
+    height: 100%;
+    width: 100%;
+    transform: skew(90deg) translate(-50%, -50%);
+    position: absolute;
+    inset: 50%;
+    left: 25%;
+    z-index: -1;
+    transition: .5s ease-out;
+    background-color: var(--color);
+}
+
+.btnFollowed::before {
+    top: -50%;
+    left: -25%;
+    transform: skew(90deg) rotate(180deg) translate(-50%, -50%);
+}
+
+.btnFollowed:hover::before {
+    transform: skew(45deg) rotate(180deg) translate(-50%, -50%);
+}
+
+.btnFollowed:hover::after {
+    transform: skew(45deg) translate(-50%, -50%);
+}
+
+.btnFollowed:hover {
+    color: var(--color2);
+}
+
+.btnFollowed:active {
+    filter: brightness(.7);
+    transform: scale(.98);
+} */
+
+/* #editName, #editEmail, #editPassword {
+    width: 300px !important;
+    padding: 3px 5px !important;
+} */

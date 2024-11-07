@@ -1,0 +1,78 @@
+<div class="newest-song flex flex-col">
+    <div class="title mb-2">
+        <p class="text-lg font-bold text-neutral-300">Newest Songs</p>
+    </div>
+
+    <div class="items flex gap-4">
+        <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+                try {
+                    const songResponse = await fetch('/songs');
+                    const songData = await songResponse.json();
+                    const songs = songData.songs;
+                    const songContainer = document.querySelector('.newest-song .items');
+                    const userId = '<%= userId %>';
+
+                    if (songs.length === 0) {
+                        const noSongsMessage = document.createElement('div');
+                        noSongsMessage.classList.add('bg-neutral-800', 'rounded-md', 'overflow-hidden', 'w-[250px]', 'h-[320px]', 'flex', 'flex-col', 'gap-y-3', 'p-4');
+                        noSongsMessage.innerHTML = `
+                        <img src="../images/nothing.png" alt="noData" class="w-[225px] rounded-md">
+                        <div class="desc-none flex flex-col justify-center items-center">
+                            <h1 class="title-playlist font-medium text-white">DATA LAGU BELUM ADA</h1>
+                            <p class="desc-playlist text-neutral-300">Silahkan Masukkan Data</p>
+                        </div>
+                        `;
+                        songContainer.appendChild(noSongsMessage);
+                    } else {
+                        songs.forEach(song => {
+                            const songItem = document.createElement('div');
+                            songItem.classList.add('list-items', 'bg-neutral-800', 'rounded-md', 'overflow-hidden', 'w-[250px]', 'h-[360px]', 'flex', 'flex-col', 'gap-y-3', 'p-4');
+                            songItem.innerHTML = `
+                                <img src="../images/song3.png" alt="Song Cover" class="w-[225px] rounded-md">
+                                <a href="" class="play-song" data-song-url="${song.link}">
+                                    <div class="player">
+                                        <img src="../images/musicPlayer.png">
+                                    </div>
+                                </a>
+                                <div class="desc mt-2">
+                                    <h1 class="title-playlist font-medium text-white">${song.name}</h1>
+                                    <p class="desc-playlist text-neutral-300">By. ${song.artistName}</p>
+                                </div>
+                                <button class="btnFollow" data-song-id="${song.id}">Like</button>
+                            `;
+                            songContainer.appendChild(songItem);
+
+                            const playSongLinks = songItem.querySelectorAll('.play-song');
+                            playSongLinks.forEach(playSongLink => {
+                                playSongLink.addEventListener('click', async (event) => {
+                                    event.preventDefault();
+                                    // const songUrl = playSongLink.getAttribute('data-song-url');
+                                    // const audioPlayer = new Audio(songUrl);
+                                    // audioPlayer.play();
+                                    // const player = songItem.querySelector('.player');
+                                    // player.classList.add('active');
+                                });
+                            });
+
+                            const btnFollow = songItem.querySelector('.btnFollow');
+                            btnFollow.addEventListener('click', async () => {
+                                try {
+                                    const songId = btnFollow.getAttribute('data-song-id');
+                                    const response = await fetch(`/userSongLiked?userId=${userId}`, {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ songId })
+                                    });
+                                    const data = await response.json();
+                                } catch (error) { console.error('Error:', error); }
+                            });
+                        });
+                    }
+                } catch (error) { console.error("Error fetching data:", error); }
+            });
+        </script>
+    </div>
+
+    <%- //include('../../layouts/modals/songPlayer') %>
+</div>

@@ -1,0 +1,150 @@
+<main id="myArtist" class="profile-section bg-neutral-900 mt-3 mr-3 mb-3 rounded-md ml-[330px] flex flex-col gap-2 text-neutral-300">
+    <div class="bg-gradient-to-b from-emerald-800 px-6 py-11 rounded-md flex w-full"></div>
+    
+    <div class="content p-5 flex flex-col gap-y-6 flex-wrap text-wrap">
+        <div class="title mb-2"><p class="font-bold text-neutral-300">Artist Account Info</p></div>
+
+        <div class="hidden editArtist bg-neutral-800 rounded-md overflow-hidden p-4">
+            <div class="editArtistForm flex flex-col">
+                <p class="text-white">Username :
+                    <input type="text" id="editName" name="name" placeholder="New Name ..." required autocomplete="off">
+                </p>
+                <p class="text-white" >Email :
+                    <input type="email" id="editEmail" name="email" placeholder="New Email ..." required autocomplete="off">
+                </p>
+                <p class="text-white" >Paswword :
+                    <input type="password" id="editPassword" name="password" placeholder="New Password ..." required autocomplete="off">
+                </p>
+            </div>
+            <div class="saveArtistProfile">
+                <button id="profile-save-input-btn" class="text-white px-4 py-2 rounded-md mt-2">Save</button>
+            </div>
+        </div>
+    
+        <div class="main flex gap-y-9 flex-col">
+            <script>
+                document.addEventListener('DOMContentLoaded', async () => {
+                    try {
+                        const artistId = '<%= artistId %>'
+                        const myartistsResponse = await fetch(`/myartists?artistId=${ artistId }`);
+                        const myartistsData = await myartistsResponse.json();
+                        const myartists = myartistsData.artists;
+                        const myartistsContainer = document.querySelector('#myArtist .main');
+                        myartistsContainer.innerHTML = '';
+
+                        if (myartists.length === 0) {
+                            const noArtistsMessage = document.createElement('div');
+                            noArtistsMessage.classList.add('profileEmpty', 'bg-neutral-800', 'rounded-md', 'overflow-hidden', 'h-[320px]', 'flex', 'flex-col', 'gap-y-3', 'p-10', 'justify-center', 'items-center');
+                            noArtistsMessage.innerHTML = `
+                            <img src="/images/nothing.png" alt="noData" class="w-[225px] rounded-md">
+                            <div class="desc-none flex flex-col justify-center items-center">
+                                <h1 class="title-playlist font-medium text-white">DATA USER ANDA BELUM ADA</h1>
+                                <p class="desc-playlist text-neutral-300">Silahkan Mengisi Data Terlebih Dahulu</p>
+                            </div>
+                            `;
+                            myartistsContainer.appendChild(noArtistsMessage);
+                        } else {
+                            myartists.forEach(myartist => {
+                                const myartistItem = document.createElement('div');
+                                myartistItem.classList.add('artistProfile', 'bg-neutral-800', 'rounded-md', 'overflow-hidden', 'p-4', 'flex');
+                                myartistItem.innerHTML = `
+                                    <div class="flex flex-col">
+                                        <h1 class="text-white">Artist Name : ${myartist.name}</h1>
+                                        <p class="text-white" >Email : ${myartist.email}</p>
+                                        <p class="text-white" >Password : ${myartist.password}</p>
+                                        <p class="text-white" >Followers : ${myartist.followers}</p>
+                                    </div>
+                                    <div class="addArtistProfile">
+                                        <img src="../images/profile.png" alt="cover" class="w-[225px] rounded-md">
+                                        <input type="file" accept="image/*" id="profile-pic-input" style="display: none;">
+                                        <button id="profile-pic-input-btn" onclick="document.getElementById('profile-pic-input').click()" class="text-white bg-blue-500 px-4 py-2 rounded-md mt-2">Add Profile Photo</button>
+                                    </div>
+                                `;
+                                myartistsContainer.appendChild(myartistItem);
+                            });
+                        }
+                    } catch (error) {
+                        console.error("Error fetching artist data:", error);
+                    }
+                });
+            </script>
+        </div>
+        
+        <div id="artistEditBtn" class="bg-neutral-800 rounded-md overflow-hidden p-4 flex flex-col">
+            <button>Edit Account</button>
+        </div>
+        <div id="artistDeleteBtn" class="bg-neutral-800 rounded-md overflow-hidden p-4 flex flex-col">
+            <button id="deleteArtistBtn">Delete Account</button>
+            <!-- <button disabled>Delete Account</button> -->
+        </div>
+        <div id="artistLogoutBtn" class="bg-neutral-800 rounded-md overflow-hidden p-4 flex flex-col text-center">
+            <a href="/"><button>Logout</button></a>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+                const deleteArtistBtn = document.getElementById('deleteArtistBtn');
+                deleteArtistBtn.addEventListener('click', async () => {
+                    const confirmDelete = confirm('Are you sure you want to delete your account?');
+                    if (confirmDelete) {
+                        const artistId = '<%= artistId %>';
+                        try {
+                            const response = await fetch('/deleteMyArtist', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ artistId })
+                            });
+                            const data = await response.text();
+                            alert(data);
+                            window.location.href = '/';
+                        } catch (error) {
+                            console.error('Error:', error);
+                            alert('There was an error deleting the account');
+                        }
+                    }
+                });
+            });
+        </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+                const editProfileBtn = document.getElementById('artistEditBtn');
+                editProfileBtn.addEventListener('click', () => {
+                    const editArtistSection = document.querySelector('.editArtist');
+                    editArtistSection.classList.remove('hidden');
+                    editArtistSection.classList.add('flex');
+                });
+
+                const saveProfileBtn = document.getElementById('profile-save-input-btn');
+                saveProfileBtn.addEventListener('click', async () => {
+                    const newName = document.getElementById('editName').value;
+                    const newEmail = document.getElementById('editEmail').value;
+                    const newPassword = document.getElementById('editPassword').value;
+
+                    if (!newName || !newEmail || !newPassword) {
+                        alert('Please fill in all fields.');
+                        return;
+                    }
+
+                    const artistId = '<%= artistId %>';
+
+                    try {
+                        const response = await fetch('/updateArtist', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ artistId, newName, newEmail, newPassword })
+                        });
+                        const data = await response.json();
+                        console.log(data);
+                    } catch (error) {
+                        console.error('Error updating artist:', error);
+                    }
+
+                    const editUserSection = document.querySelector('.editArtist');
+                    editUserSection.classList.add('hidden');
+                });
+            });
+        </script>
+
+    </div>
+</main>

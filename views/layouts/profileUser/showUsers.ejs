@@ -1,0 +1,149 @@
+<main id="myUser" class="profile-section bg-neutral-900 mt-3 mr-3 mb-3 rounded-md ml-[330px] flex flex-col gap-2 text-neutral-300">
+    <div class="bg-gradient-to-b from-emerald-800 px-6 py-11 rounded-md flex w-full"></div>
+    
+    <div class="content p-5 flex flex-col gap-y-6 flex-wrap text-wrap">
+        <div class="title mb-2"><p class="font-bold text-neutral-300">User Account Info</p></div>
+
+        <div class="hidden editUser bg-neutral-800 rounded-md overflow-hidden p-4">
+            <div class="editUserForm flex flex-col">
+                <p class="text-white">Username :
+                    <input type="text" id="editName" name="name" placeholder="New Name ..." required autocomplete="off">
+                </p>
+                <p class="text-white" >Email :
+                    <input type="email" id="editEmail" name="email" placeholder="New Email ..." required autocomplete="off">
+                </p>
+                <p class="text-white" >Paswword :
+                    <input type="password" id="editPassword" name="password" placeholder="New Password ..." required autocomplete="off">
+                </p>
+            </div>
+            <div class="saveUserProfile">
+                <button id="profile-save-input-btn" class="text-white px-4 py-2 rounded-md mt-2">Save</button>
+            </div>
+        </div>
+        
+        <div class="main flex gap-y-9 flex-col">
+            <script>
+                document.addEventListener('DOMContentLoaded', async () => {
+                    try {
+                        const userId = '<%= userId %>'
+                        const myusersResponse = await fetch(`/myusers?userId=${ userId }`);
+                        const myusersData = await myusersResponse.json();
+                        const myusers = myusersData.users;
+                        const myusersContainer = document.querySelector('#myUser .main');
+                        myusersContainer.innerHTML = '';
+
+                        if (myusers.length === 0) {
+                            const noUsersMessage = document.createElement('div');
+                            noUsersMessage.classList.add('profileEmpty', 'bg-neutral-800', 'rounded-md', 'overflow-hidden', 'h-[320px]', 'flex', 'flex-col', 'gap-y-3', 'p-10', 'justify-center', 'items-center');
+                            noUsersMessage.innerHTML = `
+                            <img src="/images/nothing.png" alt="noData" class="w-[225px] rounded-md">
+                            <div class="desc-none flex flex-col justify-center items-center">
+                                <h1 class="title-playlist font-medium text-white">DATA USER ANDA BELUM ADA</h1>
+                                <p class="desc-playlist text-neutral-300">Silahkan Mengisi Data Terlebih Dahulu</p>
+                            </div>
+                            `;
+                            myusersContainer.appendChild(noUsersMessage);
+                        } else {
+                            myusers.forEach(myuser => {
+                                const myuserItem = document.createElement('div');
+                                myuserItem.classList.add('userprofile', 'bg-neutral-800', 'rounded-md', 'overflow-hidden', 'p-4', 'flex');
+                                myuserItem.innerHTML = `
+                                <div class="flex flex-col">
+                                    <h1 class="text-white">Username : ${myuser.name}</h1>
+                                    <p class="text-white" >Email : ${myuser.email}</p>
+                                    <p class="text-white" >Paswword : ${myuser.password}</p>
+                                    <p class="text-white" >Followers : ${myuser.followers}</p>
+                                    <p class="text-white" >Following : ${myuser.following}</p>
+                                </div>
+                                <div class="addUserProfile">
+                                    <img src="../images/profile.png" alt="cover" class="w-[225px] rounded-md">
+                                    <input type="file" accept="image/*" id="profile-pic-input" style="display: none;">
+                                    <button id="profile-pic-input-btn" onclick="document.getElementById('profile-pic-input').click()" class="text-white bg-blue-500 px-4 py-2 rounded-md mt-2">Add Profile Photo</button>
+                                </div>
+                                `;
+                                myusersContainer.appendChild(myuserItem);
+                            });
+                        }
+                    } catch (error) {
+                        console.error("Error fetching user data:", error);
+                    }
+                });
+            </script>
+        </div>
+        
+        <div id="userEditBtn" class="bg-neutral-800 rounded-md overflow-hidden p-4 flex flex-col">
+            <button>Edit Account</button>
+        </div>
+        <div id="userDeleteBtn" class="bg-neutral-800 rounded-md overflow-hidden p-4 flex flex-col">
+            <button id="deleteUserBtn">Delete Account</button>
+        </div>
+        <div id="userLogoutBtn" class="bg-neutral-800 rounded-md overflow-hidden p-4 flex flex-col text-center">
+            <a href="/"><button>Logout</button></a>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+                const deleteUserBtn = document.getElementById('deleteUserBtn');
+                deleteUserBtn.addEventListener('click', async () => {
+                    const confirmDelete = confirm('Are you sure you want to delete your account?');
+                    if (confirmDelete) {
+                        const userId = '<%= userId %>';
+                        try {
+                            const response = await fetch('/deleteMyUser', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ userId })
+                            });
+                            const data = await response.text();
+                            alert(data);
+                            window.location.href = '/';
+                        } catch (error) {
+                            console.error('Error:', error);
+                            alert('There was an error deleting the account');
+                        }
+                    }
+                });
+            });
+        </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+                const editProfileBtn = document.getElementById('userEditBtn');
+                editProfileBtn.addEventListener('click', () => {
+                    const editUserSection = document.querySelector('.editUser');
+                    editUserSection.classList.remove('hidden');
+                    editUserSection.classList.add('flex');
+                });
+
+                const saveProfileBtn = document.getElementById('profile-save-input-btn');
+                saveProfileBtn.addEventListener('click', async () => {
+                    const newName = document.getElementById('editName').value;
+                    const newEmail = document.getElementById('editEmail').value;
+                    const newPassword = document.getElementById('editPassword').value;
+
+                    if (!newName || !newEmail || !newPassword) {
+                        alert('Please fill in all fields.');
+                        return;
+                    }
+
+                    const userId = '<%= userId %>';
+
+                    try {
+                        const response = await fetch('/updateUser', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ userId, newName, newEmail, newPassword })
+                        });
+                        const data = await response.json();
+                        console.log(data);
+                    } catch (error) {
+                        console.error('Error updating user:', error);
+                    }
+
+                    const editUserSection = document.querySelector('.editUser');
+                    editUserSection.classList.add('hidden');
+                });
+            });
+        </script>
+    </div>
+</main>

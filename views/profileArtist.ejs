@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/output.css">
+    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="shortcut icon" href="/images/logo.png" type="image/x-icon">
+    <title>Spotitip</title>
+</head>
+<body class="bg-black">
+        
+    <aside class="w-[300px] ml-3 flex flex-col gap-y-3 fixed h-[97%]">
+        <div class="sideProfileArtist bg-neutral-900 text-neutral-300 pl-5 p-4 rounded-md h-full flex flex-col gap-y-8 hover:cursor-pointer">
+
+            <div class="button-up md:flex items-center">
+                <a href="/main-artist/<%= artistId %>">
+                    <button class="rounded-full bg-neutral-950 hover:opacity-70 transition text-neutral-300 h-[42px] w-[42px] flex items-center justify-center hover:cursor-pointer">
+                        &lt;
+                    </button>
+                </a>
+            </div>
+            
+            <button id="showArtist" data-target="myArtist" class="hover:opacity-60 transition rounded-xl w-full text-neutral-300 ">
+                Profile
+            </button>
+            
+            <button id="createModalSongToAlbum" data-target="myAlbumToSong" class="hover:opacity-60 transition rounded-xl w-full text-neutral-300 ">
+                Add Song to Album
+            </button>
+
+        </div>
+    </aside>
+
+    <%- include('./layouts/profileArtist/showArtists') %>
+    <%- include('./layouts/profileArtist/showSongToAlbum') %>
+
+    <script src="/js/profileArtist.js"></script>
+    <script src="/js/addSongToAlbum.js"></script>
+</body>
+</html>

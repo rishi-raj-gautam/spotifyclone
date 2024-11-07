@@ -1,0 +1,10 @@
+.vercel/
+# .node_modules/
+.backup/
+.controllers/
+.models/
+.routes/
+.src/
+.env
+node_modules
+node_modules
